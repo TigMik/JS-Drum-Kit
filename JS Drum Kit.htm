@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Drum Kit</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="keys">
+        <div data-key="65" class="key">
+            <kbd>A</kbd>
+            <span class="sound">hardhard</span>
+        </div>
+        <div data-key="83" class="key">
+            <kbd>S</kbd>
+            <span class="sound">sharp</span>
+        </div>
+        <div data-key="68" class="key">
+            <kbd>D</kbd>
+            <span class="sound">squeezle</span>
+        </div>
+        <div data-key="70" class="key">
+            <kbd>F</kbd>
+            <span class="sound">big-verby</span>
+        </div>
+        <div data-key="71" class="key">
+            <kbd>G</kbd>
+            <span class="sound">bg</span>
+        </div>
+        <div data-key="72" class="key">
+            <kbd>H</kbd>
+            <span class="sound">clap</span>
+        </div>
+        <div data-key="74" class="key">
+            <kbd>J</kbd>
+            <span class="sound">divine</span>
+        </div>
+        <div data-key="75" class="key">
+            <kbd>K</kbd>
+            <span class="sound">hand</span>
+        </div>
+        <div data-key="76" class="key">
+            <kbd>L</kbd>
+            <span class="sound">mega</span>
+        </div>
+    </div>
+    <audio data-key="65" src="hardhard.wav"></audio>
+    <audio data-key="83" src="sharp.wav"></audio>
+    <audio data-key="68" src="squeezle.wav"></audio>
+    <audio data-key="70" src="big-verby.wav"></audio>
+    <audio data-key="71" src="Bg.wav"></audio>
+    <audio data-key="72" src="clap.wav"></audio>
+    <audio data-key="74" src="divine-ring.wav"></audio>
+    <audio data-key="75" src="Hand.wav"></audio>
+    <audio data-key="76" src="mega.wav"></audio>
+
+    <script>
+        function playSound(e) {
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+            if (!audio) return; // stop running
+            audio.currentTime = 0;
+            audio.play();
+            key.classList.add('playing');
+        }
+
+        function removeTransition(e) {
+            if (e.propertyName !== 'transform') return; // skip it if it is not a transform
+            this.classList.remove("playing");
+        }
+
+        const keys = document.querySelectorAll('.key');
+        keys.forEach(key => key.addEventListener("transitionend", removeTransition));
+        window.addEventListener("keydown", playSound);
+    </script>
+
+</body>
+
+</html>
